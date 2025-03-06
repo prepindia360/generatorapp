@@ -1,0 +1,580 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Control System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #2ec4b6;
+            --danger: #ef476f;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --dark: #1b1b1b;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo i {
+            font-size: 36px;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .status-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .status-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .status-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 3rem;
+        }
+        
+        .status-active {
+            background-color: rgba(6, 214, 160, 0.15);
+            color: var(--success);
+        }
+        
+        .status-inactive {
+            background-color: rgba(239, 71, 111, 0.15);
+            color: var(--danger);
+        }
+        
+        .status-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .status-description {
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+        
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .control-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+        
+        .control-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .control-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            background-color: var(--light);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .control-header i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+        
+        .control-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .control-body {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            font-size: 1rem;
+            margin: 5px;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #d63d62;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .status-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        
+        .status-section h2 {
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            color: var(--dark);
+        }
+        
+        .status-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .status-label {
+            color: var(--gray);
+        }
+        
+        .status-value {
+            font-weight: 500;
+        }
+        
+        .status-value.connected {
+            color: var(--success);
+        }
+        
+        .status-value.disconnected {
+            color: var(--danger);
+        }
+        
+        .status-loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(67, 97, 238, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .toast {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            max-width: 350px;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-icon {
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        
+        .toast-success .toast-icon {
+            color: var(--success);
+        }
+        
+        .toast-error .toast-icon {
+            color: var(--danger);
+        }
+        
+        .toast-message {
+            flex: 1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .control-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+
+
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <h1>Generator Control</h1>
+            </div>
+            <p class="subtitle">Remote monitoring and control system</p>
+        </header>
+        
+        <div id="status-card" class="status-card">
+            <div id="status-icon" class="status-icon status-inactive">
+                <i class="fas fa-power-off"></i>
+            </div>
+            <h2 id="status-text" class="status-text">Generator is OFF</h2>
+            <p id="status-description" class="status-description">Your generator is currently inactive. Press Start to activate.</p>
+        </div>
+        
+        <div class="control-grid">
+            <div class="control-card">
+                <div class="control-header">
+                    <i class="fas fa-play"></i>
+                    <h3 class="control-title">Start Generator</h3>
+                </div>
+                <div class="control-body">
+                    <button id="start-btn" class="btn btn-primary">
+                        <i class="fas fa-play-circle"></i>Start
+                    </button>
+                </div>
+            </div>
+            
+            <div class="control-card">
+                <div class="control-header">
+                    <i class="fas fa-stop"></i>
+                    <h3 class="control-title">Stop Generator</h3>
+                </div>
+                <div class="control-body">
+                    <button id="stop-btn" class="btn btn-danger">
+                        <i class="fas fa-stop-circle"></i>Stop
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-section">
+            <h2>System Status</h2>
+            <div class="status-details">
+                <span class="status-label">Connection Status:</span>
+                <span id="connection-status" class="status-value">Checking... <span class="status-loading"></span></span>
+            </div>
+            <div class="status-details">
+                <span class="status-label">Last Updated:</span>
+                <span id="last-updated" class="status-value">--</span>
+            </div>
+            <div class="status-details">
+                <span class="status-label">Device ID:</span>
+                <span class="status-value">ESP32-GEN-CONTROL</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toast-container" id="toast-container"></div>
+    
+    <footer>
+        <p>&copy; 2025 Generator Control System | Powered by Blynk</p>
+    </footer>
+
+    <script>
+        // Blynk API configuration
+        const BLYNK_AUTH = "0TxasQ2dlIuzIduQ8ZSyiALGnc1uQ5ib"; // Your Blynk token
+        const BLYNK_SERVER = "blr1.blynk.cloud"; // Blynk server domain
+        
+        // Virtual pin numbers (without the "v" prefix for API calls)
+        const STATUS_VPIN = "v0";
+        const START_VPIN = "v1";
+        const STOP_VPIN = "v2";
+        
+        // DOM elements
+        const statusIcon = document.getElementById('status-icon');
+        const statusText = document.getElementById('status-text');
+        const statusDescription = document.getElementById('status-description');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const connectionStatus = document.getElementById('connection-status');
+        const lastUpdated = document.getElementById('last-updated');
+        const toastContainer = document.getElementById('toast-container');
+        
+        // Generator status
+        let generatorRunning = false;
+        
+        // Add event listeners
+        startBtn.addEventListener('click', startGenerator);
+        stopBtn.addEventListener('click', stopGenerator);
+        
+        // Function to start the generator
+        function startGenerator() {
+            if (!generatorRunning) {
+                updatePinValue(START_VPIN, "1");
+                showToast('Starting generator...', 'success');
+                
+                // Reset button value after a short delay (like a momentary button)
+                setTimeout(() => {
+                    updatePinValue(START_VPIN, "0");
+                }, 1000);
+            } else {
+                showToast('Generator is already running', 'error');
+            }
+        }
+        
+        // Function to stop the generator
+        function stopGenerator() {
+            if (generatorRunning) {
+                updatePinValue(STOP_VPIN, "1");
+                showToast('Stopping generator...', 'success');
+                
+                // Reset button value after a short delay (like a momentary button)
+                setTimeout(() => {
+                    updatePinValue(STOP_VPIN, "0");
+                }, 1000);
+            } else {
+                showToast('Generator is already stopped', 'error');
+            }
+        }
+        
+        // Function to update Blynk pin value
+        function updatePinValue(pin, value) {
+            connectionStatus.innerHTML = 'Updating... <span class="status-loading"></span>';
+            
+            // Construct the URL for updating the pin value
+            fetch(`https://${BLYNK_SERVER}/external/api/update?token=${BLYNK_AUTH}&${pin}=${value}`)
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error(`Failed to update (HTTP ${response.status})`);
+                    }
+                })
+                .then(data => {
+                    console.log("Update response:", data);
+                    connectionStatus.innerHTML = '<span class="connected">Connected</span>';
+                    lastUpdated.textContent = new Date().toLocaleTimeString();
+                    
+                    // If it was a successful start command, update status (with small delay to allow ESP32 to process)
+                    if (pin === START_VPIN && value === "1") {
+                        setTimeout(() => {
+                            // Manually set generator status to running after start
+                            generatorRunning = true;
+                            updateGeneratorUI(true);
+                            refreshStatus(); // Also fetch from server to confirm
+                        }, 1500);
+                    }
+                    
+                    // If it was a successful stop command, update status
+                    if (pin === STOP_VPIN && value === "1") {
+                        setTimeout(() => {
+                            // Manually set generator status to stopped after stop
+                            generatorRunning = false;
+                            updateGeneratorUI(false);
+                            refreshStatus(); // Also fetch from server to confirm
+                        }, 1500);
+                    }
+                })
+                .catch(error => {
+                    connectionStatus.innerHTML = '<span class="disconnected">Disconnected</span>';
+                    showToast(`Failed to connect: ${error.message}`, 'error');
+                    console.error('Error:', error);
+                });
+        }
+        
+        // Function to get current generator status
+        function refreshStatus() {
+            connectionStatus.innerHTML = 'Checking... <span class="status-loading"></span>';
+            
+            // Use the correct format for the API call
+            fetch(`https://${BLYNK_SERVER}/external/api/get?token=${BLYNK_AUTH}&pin=${STATUS_VPIN}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log("Status response:", data);
+                    connectionStatus.innerHTML = '<span class="connected">Connected</span>';
+                    lastUpdated.textContent = new Date().toLocaleTimeString();
+                    
+                    // Parse the response
+                    generatorRunning = data.trim() === "1";
+                    updateGeneratorUI(generatorRunning);
+                })
+                .catch(error => {
+                    connectionStatus.innerHTML = '<span class="disconnected">Disconnected</span>';
+                    console.error('Error getting status:', error);
+                });
+        }
+        
+        // Function to update UI based on generator status
+        function updateGeneratorUI(isRunning) {
+            if (isRunning) {
+                statusIcon.className = 'status-icon status-active';
+                statusText.textContent = 'Generator is ON';
+                statusDescription.textContent = 'Your generator is currently active and running.';
+                document.getElementById('status-card').style.borderLeft = '5px solid var(--success)';
+            } else {
+                statusIcon.className = 'status-icon status-inactive';
+                statusText.textContent = 'Generator is OFF';
+                statusDescription.textContent = 'Your generator is currently inactive. Press Start to activate.';
+                document.getElementById('status-card').style.borderLeft = '5px solid var(--danger)';
+            }
+        }
+        
+        // Function to show toast notifications
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            const icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
+            
+            toast.innerHTML = `
+                <div class="toast-icon"><i class="fas fa-${icon}"></i></div>
+                <div class="toast-message">${message}</div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Show the toast after a small delay (for animation)
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            // Remove the toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toastContainer.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Initial status check
+        refreshStatus();
+        
+        // Periodic refresh (every 10 seconds)
+        setInterval(refreshStatus, 10000);
+    </script>
+</body>
+</html>
