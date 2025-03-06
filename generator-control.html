@@ -2,6 +2,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+// Simple authentication check
+(function() {
+    // Check if user is logged in
+    const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+    
+    // If not logged in, redirect to login page
+    if (!isLoggedIn) {
+        window.location.href = 'login.html';
+    }
+})();
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generator Control System</title>
@@ -339,6 +351,7 @@
                 <h1>Generator Control</h1>
             </div>
             <p class="subtitle">Remote monitoring and control system</p>
+
         </header>
         
         <div id="status-card" class="status-card">
@@ -390,13 +403,41 @@
                 <span class="status-value">ESP32-GEN-CONTROL</span>
             </div>
         </div>
+
     </div>
     
     <div class="toast-container" id="toast-container"></div>
     
     <footer>
-        <p>&copy; 2025 Generator Control System | Powered by Blynk</p>
+        <p>&copy; 2025 Generator Control System | EME SCHOOL </p>
+
+
+
     </footer>
+
+<!-- Add this right before the closing </body> tag -->
+<div style="text-align: center; margin: 30px 0;">
+  <button id="logout-btn" class="btn btn-danger" style="max-width: 200px; padding: 10px 20px;">
+    <i class="fas fa-sign-out-alt"></i> Logout
+  </button>
+</div>
+
+<script>
+document.getElementById('logout-btn').addEventListener('click', function() {
+  sessionStorage.removeItem('isLoggedIn');
+  window.location.href = 'index.html';
+});
+</script>
+
+<script>
+// Add this to your JavaScript in generator-control.html
+document.getElementById('logout-btn').addEventListener('click', function() {
+    // Clear login status
+    sessionStorage.removeItem('isLoggedIn');
+    // Redirect to login page
+    window.location.href = 'login.html';
+});
+</script>
 
     <script>
         // Blynk API configuration

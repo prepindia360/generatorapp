@@ -401,24 +401,28 @@
         const usernameField = document.getElementById('username');
         const errorMessage = document.getElementById('error-message');
         
-        loginBtn.addEventListener('click', function() {
-            const username = usernameField.value.trim();
-            const password = passwordField.value.trim();
-            
-            if (username === 'admin' && password === 'admin') {
-                // Successful login - redirect to main page
-                window.location.href = 'generator-control.html';
-            } else {
-                // Show error message
-                errorMessage.style.display = 'block';
-                
-                // Shake animation for error
-                loginBtn.classList.add('shake');
-                setTimeout(() => {
-                    loginBtn.classList.remove('shake');
-                }, 500);
-            }
-        });
+// In your login.html file, update the login button event handler:
+loginBtn.addEventListener('click', function() {
+    const username = usernameField.value.trim();
+    const password = passwordField.value.trim();
+    
+    if (username === 'admin' && password === 'admin') {
+        // Set logged in status
+        sessionStorage.setItem('isLoggedIn', 'true');
+        
+        // Successful login - redirect to main page
+        window.location.href = 'generator-control.html';
+    } else {
+        // Show error message
+        errorMessage.style.display = 'block';
+        
+        // Shake animation for error
+        loginBtn.classList.add('shake');
+        setTimeout(() => {
+            loginBtn.classList.remove('shake');
+        }, 500);
+    }
+});
         
         // Also allow Enter key to submit
         document.addEventListener('keypress', function(e) {
